@@ -58,7 +58,7 @@ export default class Repository extends Component {
                 <div>
                   <strong>
                     <a href={issue.html_url}>{issue.title}</a>
-                    {/**labels */}
+                    {issue.lab}
                   </strong>
                   <p>{issue.user.login}</p>
                 </div>

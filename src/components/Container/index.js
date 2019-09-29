@@ -1,5 +1,4 @@
-
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Container = styled.div`
   max-width: 700px;
@@ -32,4 +31,4 @@ export const Form = styled.form`
     font-size: 16px;
   }
 `;
-export default Container
+export default Container;

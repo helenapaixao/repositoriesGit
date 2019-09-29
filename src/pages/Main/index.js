@@ -31,12 +31,16 @@ export default class Main extends Component {
     this.setState({ newRepo: e.target.value });
   };
 
-  handleSumit = async e => {
+  handleSubmit = async e => {
     e.preventDefault();
     this.setState({ loading: true });
-    console.log(this.state.newRepo);
+
+    try {
 
     const { newRepo, repositories } = this.state;
+    if(newRepo === '') throw 'Você precisa indicar um repositório';
+    const hasRepo = repositories.find(r => r.name === newRepo);
+    if(hasRepo) throw 'Repositório Duplicado';
     const response = await api.get(`/repos/${newRepo}`);
 
     const data = {
@@ -47,6 +51,14 @@ export default class Main extends Component {
       newRepo: '',
       loading: false,
     });
+
+    } catch (error) {
+      //Caso não encontre o repositório colocar uma borda em volta
+      this.setState({error:true});
+    }finally{
+      this.setState({loading:false})
+    }
+
   };
   render() {
     const { newRepo, repositories, loading } = this.state;
@@ -56,7 +68,7 @@ export default class Main extends Component {
           <FaGitAlt />
           Repositório
         </h1>
-        <Form onSubmit={this.handleSumit}>
+        <Form onSubmit={this.handleSubmit}>
           <input type="text" placeholder="Adicionar repositório" value={newRepo} onChange={this.handleInputChange} />
           <SubmitButton loading={loading}>
             {loading ? <FaSpinner color="#FFF" size={14} /> : <FaPlus color="#FFF" size={14} />}
